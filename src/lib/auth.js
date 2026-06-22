@@ -18,13 +18,15 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       role: {
-        defaultValue: "buyer",
+        defaultValue: "buyer", // buyer,seller,admin
+        
       },
       plan: {
-        defaultValue: "free",
+        defaultValue: "free", // free,pro
       },
     },
   },
+
   session: {
     cookieCache: {
       enabled: true,
