@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -14,6 +15,12 @@ const Navbar = () => {
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
+
+  const pathName = usePathname();
+
+  if (pathName.includes("dashboard")) {
+    return null;
+  };
 
 
   const handleSignOut = async () => {
@@ -88,7 +95,7 @@ const Navbar = () => {
               <Link href="/pricing">Pricing</Link>
             </li>
           </ul>
-         {!user && (
+          {!user && (
             <div className="hidden items-center gap-4 md:flex">
               <Link href="/signin">Login</Link>
               <Link href="/signup">
@@ -131,13 +138,13 @@ const Navbar = () => {
                     onAction={(key) => console.log(`Selected: ${key}`)}
                   >
                     <Dropdown.Item id="new-file" textValue="New file">
-                      {/* <Link
+                      <Link
                         className="flex items-center gap-2"
                         href={`/dashboard/${user?.role}`}
-                      > */}
+                      >
                         <MdDashboard />
                         <Label>Dashboard</Label>
-                      {/* </Link> */}
+                      </Link>
                     </Dropdown.Item>
 
                     <Dropdown.Item id="copy-link" textValue="Copy link">
@@ -169,7 +176,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="block py-2 font-medium text-accent">
+                <Link href={`/dashboard/${user?.role}`} className="block py-2 font-medium text-accent">
                   Dashboard
                 </Link>
               </li>
@@ -179,10 +186,12 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
-                <Link href="#" className="block py-2">
+                <Link href={"/signin" }className="block py-2">
                   Login
                 </Link>
-                <Button className="w-full">Sign Up</Button>
+                <Link href={"/signup"}>
+                  <Button className="w-full">Sign Up</Button>
+                </Link>
               </li>
             </ul>
           </div>
